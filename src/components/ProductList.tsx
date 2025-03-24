@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Product } from "../types";
-import ProductCard from "./ProductCard";
+import ProductCard from "./ProductCard/ProductCard";
 import { Box, Grid2, MenuItem, TextField} from "@mui/material";
 
 const ProductList: React.FC = () => {

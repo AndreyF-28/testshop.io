@@ -1,15 +1,10 @@
-# React + TypeScript + Vite
+# TestShop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TestShop.io - это минимальная установка для React с TypeScript, использующая Vite для быстрой настройки и HMR (горячая замена модулей). Проект включает два официальных плагина для React: один использует Babel, а другой - SWC для быстрого обновления.
 
-Currently, two official plugins are available:
+## Начало работы
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Чтобы начать работу с проектом, выполните следующие шаги:
 
 ```js
 export default tseslint.config({

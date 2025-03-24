@@ -1,6 +1,6 @@
 import React from "react";
-import { Product } from "../types";
-import { useCart } from "../context/CartContext";
+import { Product } from "../../types";
+import { useCart } from "../../context/CartContext";
 import {
     Box,
     Button,
