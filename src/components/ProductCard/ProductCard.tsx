@@ -1,6 +1,5 @@
 import React from "react";
-import { Product } from "../../types";
-import { useCart } from "../../context/CartContext";
+
 import {
     Box,
     Button,
@@ -10,17 +9,17 @@ import {
     Typography,
 } from "@mui/material";
 import styles from "./ProductCard.module.css";
+import { Product } from "../../types";
+import { useAppDispatch } from "../../hooks/hooks";
+import { addToCart } from "../../store/slices/cartSlice";
+
 
 interface ProductCardProps {
     product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-    const { addToCart } = useCart();
-
-    const handleAddToCart = () => {
-        addToCart(product);
-    };
+    const dispatch = useAppDispatch();
 
     return (
         <Card className={styles.card}>
@@ -55,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={handleAddToCart}
+                        onClick={() => dispatch(addToCart(product))}
                     >
                         Добавить в корзину
                     </Button>

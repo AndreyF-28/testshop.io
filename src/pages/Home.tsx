@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import ProductList from "../components/ProductList";
-import {Container} from "@mui/material";
+import { Container } from "@mui/material";
 
 const Home: React.FC = () => {
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [selectedCategory, setSelectedCategory] = useState<string>("");
+
     return (
         <Container sx={{ padding: 3 }}>
-            <ProductList/>
+            <ProductList
+                searchQuery={searchQuery}
+                selectedCategory={selectedCategory}
+                onSearchChange={setSearchQuery}
+                onCategoryChange={setSelectedCategory}
+            />
         </Container>
     );
 };

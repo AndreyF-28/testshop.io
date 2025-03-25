@@ -1,53 +1,41 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Product } from "../types";
+import React, { useEffect } from "react";
 import ProductCard from "./ProductCard/ProductCard";
-import { Box, Grid2, MenuItem, TextField} from "@mui/material";
+import { Box, Grid2, MenuItem, TextField, Typography } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { fetchProducts, selectCategories, selectFilteredProducts } from "../store/slices/productsSlice";
+import LoadingSpinner from "./LoadingSpinner";
 
-const ProductList: React.FC = () => {
-    const [products, setProducts] = useState<Product[]>([]);
-    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-    const [categories, setCategories] = useState<string[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState<string>("");
-    const [searchQuery, setSearchQuery] = useState<string>("");
+interface ProductListProps {
+    searchQuery: string;
+    selectedCategory: string;
+    onSearchChange: (query: string) => void;
+    onCategoryChange: (category: string) => void;
+}
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const { data } = await axios.get<Product[]>(
-                    "https://fakestoreapi.com/products"
-                );
-                setProducts(data);
-                setFilteredProducts(data);
-
-                const uniqueCategories = Array.from(
-                    new Set(data.map((product) => product.category))
-                );
-                setCategories(uniqueCategories);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchProducts();
-    }, []);
+const ProductList: React.FC<ProductListProps> = ({
+    searchQuery,
+    selectedCategory,
+    onSearchChange,
+    onCategoryChange,
+}) => {
+    const dispatch = useAppDispatch();
+    const loadingStatus = useAppSelector((state) => state.products.status);
+    const filteredProducts = useAppSelector((state) =>
+        selectFilteredProducts(state, searchQuery, selectedCategory)
+    );
+    const categories = useAppSelector(selectCategories);
 
     useEffect(() => {
-        if (selectedCategory) {
-            const filtered = products.filter(
-                (product) => product.category === selectedCategory
-            );
-            setFilteredProducts(filtered);
-        } else {
-            setFilteredProducts(products);
-        }
+        dispatch(fetchProducts());
+    }, [dispatch]);
 
-        if (searchQuery) {
-            const filtered = products.filter((product) =>
-                product.title.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-            setFilteredProducts(filtered);
-        }
-    }, [selectedCategory, searchQuery, products]);
+    if (loadingStatus === "loading") {
+        return <LoadingSpinner />;
+    }
+
+    if (loadingStatus === "failed") {
+        return <Typography color="error">Ошибка загрузки товаров</Typography>;
+    }
 
     return (
         <Box>
@@ -57,14 +45,14 @@ const ProductList: React.FC = () => {
                     variant="outlined"
                     fullWidth
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => onSearchChange(e.target.value)}
                 />
                 <TextField
                     select
                     label="Категория"
                     variant="outlined"
                     value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    onChange={(e) => onCategoryChange(e.target.value)}
                     sx={{ minWidth: 200 }}
                 >
                     <MenuItem value="">Все категории</MenuItem>
@@ -81,6 +69,9 @@ const ProductList: React.FC = () => {
                         <ProductCard product={product} />
                     </Grid2>
                 ))}
+                {filteredProducts.length === 0 && (
+                    <span>Товаров не обнаружено</span>
+                )}
             </Grid2>
         </Box>
     );

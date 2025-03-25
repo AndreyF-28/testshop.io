@@ -1,34 +1,42 @@
 import React from "react";
-import { useCart } from "../context/CartContext";
-import { Box, Button, List, ListItem, ListItemText, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    List,
+    ListItem,
+    ListItemText,
+    Typography,
+} from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { removeFromCart, selectCartItems, selectTotalPrice } from "../store/slices/cartSlice";
 
 const Cart: React.FC = () => {
-    const { cart, removeFromCart, totalPrice } = useCart();
-
-    console.log(cart);
+    const cartItems = useAppSelector(selectCartItems);
+    const totalPrice = useAppSelector(selectTotalPrice);
+    const dispatch = useAppDispatch();
 
     return (
         <Box sx={{ padding: 3 }}>
             <Typography variant="h4" gutterBottom>
                 Корзина
             </Typography>
-            {cart.length === 0 ? (
+            {cartItems.length === 0 ? (
                 <Typography variant="body1">Ваша корзина пуста</Typography>
             ) : (
                 <List>
-                    {cart.map((product) => (
+                    {cartItems.map((item) => (
                         <ListItem
-                            key={product.id}
+                            key={item.product.id}
                             sx={{ borderBottom: "1px solid #eee" }}
                         >
                             <ListItemText
-                                primary={product.title}
-                                secondary={`$${product.price}`}
+                                primary={`${item.product.title} x${item.quantity}`}
+                                secondary={`$${(item.product.price * item.quantity).toFixed(2)}`}
                             />
                             <Button
                                 variant="outlined"
                                 color="error"
-                                onClick={() => removeFromCart(product.id)}
+                                onClick={() => dispatch(removeFromCart(item.product.id))}
                             >
                                 Удалить
                             </Button>
