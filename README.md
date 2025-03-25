@@ -2,48 +2,43 @@
 
 TestShop.io - это минимальная установка для React с TypeScript, использующая Vite для быстрой настройки и HMR (горячая замена модулей). Проект включает два официальных плагина для React: один использует Babel, а другой - SWC для быстрого обновления.
 
+## Описание проекта
+
+TestShop - это демонстрационный интернет-магазин, разработанный с использованием современных веб-технологий. Проект демонстрирует работу с React, TypeScript, Redux Toolkit и Material-UI.
+
+Основные функции:
+- Просмотр списка товаров
+- Добавление товаров в корзину
+- Управление количеством товаров в корзине
+- Расчет общей стоимости заказа
+
 ## Начало работы
 
 Чтобы начать работу с проектом, выполните следующие шаги:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1. Клонируйте репозиторий:
+```bash
+git clone https://github.com/AndreyF-28/testshop.io.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+2. Перейдите в директорию проекта:
+```bash
+cd teststore
 ```
+
+3. Установите зависимости:
+```bash
+npm install
+```
+
+4. Запустите проект в режиме разработки:
+```bash
+npm run dev
+```
+
+5. Откройте браузер и перейдите по адресу http://localhost:3000, чтобы увидеть проект в действии.
+
+## Ссылка на развёрнутый сайт
+
+Проект автоматически развёртывается на Vercel.\
+Вы можете посетить его по следующей ссылке: https://testshop-io.vercel.app/
